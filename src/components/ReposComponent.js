@@ -1,31 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const ReposComponent = () => {
-    const[userRepo, setUserRepo] = useState([]);
+    const [userRepo, setUserRepo] = useState([]);
     const navigate = useNavigate();
 
     const handleRowClick = (repoId) => {
         navigate(`/repos/${repoId}`);
     };
 
-    useEffect(() =>{
-        async function fetchRepo(){
-        const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu/repos")
-        const reponse = await fetchResponse.json();
-        setUserRepo(reponse);
-    } fetchRepo();
+    useEffect(() => {
+        async function fetchRepo() {
+            const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu/repos");
+            const response = await fetchResponse.json();
+            setUserRepo(response);
+        }
+        fetchRepo();
     }, []);
-    
+
     return (
-        <TableContainer>
-            <Table aria-label="table">
+        <TableContainer component={Paper} elevation={3} sx={{ margin: '20px', overflow: 'hidden' }}>
+            <Typography variant="h4" component="div" sx={{ padding: '20px' }}>Repositories</Typography>
+            <Table aria-label="repository table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
                         <TableCell>Id</TableCell>
-                        <TableCell>Url</TableCell> 
+                        <TableCell>URL</TableCell> 
                         <TableCell>Owner</TableCell>
                         <TableCell>Default Branch</TableCell>
                         <TableCell>Language</TableCell>
@@ -34,24 +36,30 @@ const ReposComponent = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {userRepo.map ((r)=>
-                    <TableRow
-                        key ={r.id} hover onClick={() => handleRowClick(r.id)}
-                    >
+                    {userRepo.map((r) => (
+                        <TableRow
+                            key={r.id} hover
+                            onClick={() => handleRowClick(r.id)}
+                            sx={{ cursor: 'pointer' }}
+                        >
                             <TableCell>{r.name}</TableCell>
                             <TableCell>{r.id}</TableCell>
-                            <TableCell>{r.url}</TableCell>
+                            <TableCell>
+                                <Link href={r.html_url} target="_blank" rel="noopener noreferrer">
+                                    GitHub URL
+                                </Link>
+                            </TableCell>
                             <TableCell>{r.owner.login}</TableCell> 
                             <TableCell>{r.default_branch}</TableCell>
                             <TableCell>{r.language}</TableCell>
                             <TableCell>{r.description}</TableCell>
                             <TableCell>{r.created_at}</TableCell>
-                    </TableRow>
-                    )}
+                        </TableRow>
+                    ))}
                 </TableBody>
-
             </Table>
         </TableContainer>
-    )
-}
+    );
+};
+
 export default ReposComponent;

@@ -1,54 +1,56 @@
-import React, {useEffect, useState} from 'react';
-import { Button, Box } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Button, Box, Typography, Avatar, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-
 const HomeComponent = () => {
-    const[userData, setUserData] = useState([]);
-    const[avatar, setUserAvatar] = useState(null);
-    const navigate = useNavigate();
+    const [userData, setUserData] = useState(null);
+    const [avatar, setUserAvatar] = useState(null);
+    const navigate = useNavigate(); 
 
-    useEffect(()=>{
-        async function fetchUserData(){
-        const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu");
-        const jsonResponse = await fetchResponse.json();
-        setUserData(jsonResponse);
+    useEffect(() => {
+        async function fetchUserData() {
+            const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu");
+            const jsonResponse = await fetchResponse.json();
+            setUserData(jsonResponse);
         }
         fetchUserData();
     }, []);
 
+    useEffect(() => {
+        if (userData) {
+            async function fetchUserAvatar() {
+                const fetchResponse = await fetch(userData.avatar_url);
+                const img = await fetchResponse.blob();
+                setUserAvatar(URL.createObjectURL(img));
+            }
+            fetchUserAvatar();
+        }
+    }, [userData]);
+
     const goToRepos = () => {
-        navigate ('/repos');
+        navigate('/repos');
+    };
+
+    if (!userData) {
+        return <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+            <Typography variant="h4">Loading...</Typography>
+        </Box>;
     }
 
-    useEffect(()=>{
-        if(userData){
-        async function fetchUserAvatar(){
-        const fetchResponse = await fetch(userData.avatar_url);
-        const img = await fetchResponse.blob();
-        setUserAvatar(URL.createObjectURL(img));
-        }
-         fetchUserAvatar();
-        }
-       
-    },[userData]);
-
-    if(!userData){
-        return <div>Loading...</div>; 
-    }
-
-    return(
-        <div>
-            <h1>Hello {userData.login}</h1>
-                {avatar && <img src={avatar} alt="User Avatar" />}
-            <h5>Public repos: {userData.public_repos}</h5>
-            <h5>Public following: {userData.followers}</h5>
-            <h5>Public followers: {userData.following}</h5>
-            <Box display="flex" justifyContent="center" m={2}>
-                <Button variant="contained" onClick={goToRepos}>Repos</Button>
+    return (
+        <Paper elevation={3} style={{ margin: '20px', padding: '20px' }}>
+            <Box display="flex" flexDirection="column" alignItems="center">
+                <Avatar src={avatar} alt="User Avatar" sx={{ width: 120, height: 120, marginBottom: 2 }} />
+                <Typography variant="h4" component="h1" gutterBottom>Hello {userData.login}</Typography>
+                <Typography variant="subtitle1">Public Repositories: {userData.public_repos}</Typography>
+                <Typography variant="subtitle1">Followers: {userData.followers}</Typography>
+                <Typography variant="subtitle1">Following: {userData.following}</Typography>
+                <Box m={2}>
+                    <Button variant="contained" onClick={goToRepos}>View Repos</Button>
+                </Box>
             </Box>
-        </div>
+        </Paper>
     );
-    
-}
+};
+
 export default HomeComponent;

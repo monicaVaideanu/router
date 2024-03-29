@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Typography, Box, Paper, Link } from '@mui/material';
 
 const RepositoryDetails = () => {
     const [repoData, setRepoData] = useState(null);
@@ -39,11 +39,11 @@ const RepositoryDetails = () => {
         navigate(`/repos/${event.target.value}`);
     };
 
-    if (error) return <div>{error}</div>;
-    if (!repoData) return <div>Loading...</div>;
+    if (error) return <Typography color="error">{error}</Typography>;
+    if (!repoData) return <Typography>Loading...</Typography>;
 
     return (
-        <div>
+        <Box sx={{ padding: 2 }}>
             <FormControl fullWidth margin="normal">
                 <InputLabel id="repo-select-label">Select Repository</InputLabel>
                 <Select
@@ -52,6 +52,7 @@ const RepositoryDetails = () => {
                     value={repoId}
                     label="Select Repository"
                     onChange={handleChange}
+                    sx={{ marginBottom: 2 }}
                 >
                     {allRepos.map((repo) => (
                         <MenuItem key={repo.id} value={repo.id}>
@@ -60,10 +61,14 @@ const RepositoryDetails = () => {
                     ))}
                 </Select>
             </FormControl>
-            <h2>{repoData.name}</h2>
-            <p>ID: {repoData.id}</p>
-            <p>URL: <a href={repoData.html_url} target="_blank" rel="noopener noreferrer">{repoData.html_url}</a></p>
-        </div>
+            <Paper elevation={3} sx={{ padding: 2 }}>
+                <Typography variant="h5" gutterBottom>{repoData.name}</Typography>
+                <Typography variant="body1">ID: {repoData.id}</Typography>
+                <Typography variant="body1">
+                    URL: <Link href={repoData.html_url} target="_blank" rel="noopener noreferrer">{repoData.html_url}</Link>
+                </Typography>
+            </Paper>
+        </Box>
     );
 };
 
