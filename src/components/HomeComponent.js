@@ -1,8 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import { Button, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
 
 const HomeComponent = () => {
-    const[userData, setUserData] = useState(null);
+    const[userData, setUserData] = useState([]);
     const[avatar, setUserAvatar] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         async function fetchUserData(){
@@ -12,6 +16,10 @@ const HomeComponent = () => {
         }
         fetchUserData();
     }, []);
+
+    const goToRepos = () => {
+        navigate ('/repos');
+    }
 
     useEffect(()=>{
         if(userData){
@@ -32,10 +40,13 @@ const HomeComponent = () => {
     return(
         <div>
             <h1>Hello {userData.login}</h1>
-            {avatar && <img src={avatar} alt="User Avatar" />} {/* Afisează imaginea doar dacă avatar este setat */}
+                {avatar && <img src={avatar} alt="User Avatar" />}
             <h5>Public repos: {userData.public_repos}</h5>
             <h5>Public following: {userData.followers}</h5>
             <h5>Public followers: {userData.following}</h5>
+            <Box display="flex" justifyContent="center" m={2}>
+                <Button variant="contained" onClick={goToRepos}>Repos</Button>
+            </Box>
         </div>
     );
     
