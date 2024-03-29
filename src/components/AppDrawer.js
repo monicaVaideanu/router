@@ -8,8 +8,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home'; // Icoana pentru Home
-import RepoIcon from '@mui/icons-material/Source'; // Icoana pentru Repository-uri, poți alege o icoană relevantă
+import HomeIcon from '@mui/icons-material/Home';
+import RepoIcon from '@mui/icons-material/Source'; 
 import { useNavigate } from 'react-router-dom';
 
 export default function AppDrawer() {
@@ -22,7 +22,7 @@ export default function AppDrawer() {
 
   const handleNavigation = (path) => {
     navigate(path);
-    setOpen(false); // Închide drawer-ul după navigare
+    setOpen(false);
   };
 
   const DrawerList = (
@@ -44,7 +44,6 @@ export default function AppDrawer() {
             <ListItemText primary="Repositories" />
           </ListItemButton>
         </ListItem>
-        {/* Aici poți adăuga mai multe ListItem pentru alte pagini */}
       </List>
     </Box>
   );

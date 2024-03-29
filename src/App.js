@@ -3,13 +3,13 @@ import './App.css';
 import HomeComponent from './components/HomeComponent';
 import ReposComponent from './components/ReposComponent';
 import RepositoryDetails from './components/RepositoryDetails';
-import AppDrawer from './components/AppDrawer'; // Asigură-te că calea către AppDrawer este corectă
+import AppDrawer from './components/AppDrawer'; 
 import {Routes, Route} from "react-router-dom";
 
 function App() {
   return (
       <div className="App">
-          <AppDrawer /> {/* Acesta este Drawer-ul pe care îl vei utiliza pentru navigație */}
+          <AppDrawer /> 
           <Routes>
               <Route path="/home" element={<HomeComponent/>}/>
               <Route path="/" element={<HomeComponent/>}/>
