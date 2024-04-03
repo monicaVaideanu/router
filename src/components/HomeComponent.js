@@ -1,31 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Box, Typography, Avatar, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import {getAllData, getAvatar} from '../apis/GetData';
 
 const HomeComponent = () => {
     const [userData, setUserData] = useState(null);
     const [avatar, setUserAvatar] = useState(null);
+    const [avatarUrl, setUserAvatarUrl] = useState(null);
     const navigate = useNavigate(); 
 
-    useEffect(() => {
-        async function fetchUserData() {
-            const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu");
-            const jsonResponse = await fetchResponse.json();
-            setUserData(jsonResponse);
-        }
-        fetchUserData();
-    }, []);
+    // useEffect(() => {
+    //     async function fetchUserData() {
+    //         const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu");
+    //         const jsonResponse = await fetchResponse.json();
+    //         setUserData(jsonResponse);
+    //     }
+    //     fetchUserData();
+    // }, []);
 
     useEffect(() => {
-        if (userData) {
-            async function fetchUserAvatar() {
-                const fetchResponse = await fetch(userData.avatar_url);
-                const img = await fetchResponse.blob();
-                setUserAvatar(URL.createObjectURL(img));
-            }
-            fetchUserAvatar();
-        }
-    }, [userData]);
+        getAllData().then((response) => {
+            setUserData(response.data);
+            setUserAvatarUrl(response.data.avatar_url)
+        });
+    }, []);
+    useEffect(() => {
+        getAvatar(avatarUrl).then((response) => {
+            setUserAvatar(URL.createObjectURL(response.data))
+        });
+    }, [avatarUrl]);
+
+    // useEffect(() => {
+    //     if (userData) {
+    //         async function fetchUserAvatar() {
+    //             const fetchResponse = await fetch(userData.avatar_url);
+    //             const img = await fetchResponse.blob();
+    //             setUserAvatar(URL.createObjectURL(img));
+    //         }
+    //         fetchUserAvatar();
+    //     }
+    // }, [userData]);
 
     const goToRepos = () => {
         navigate('/repos');
