@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import {getRepos} from '../apis/GetData';
 
 const ReposComponent = () => {
     const [userRepo, setUserRepo] = useState([]);
@@ -10,15 +11,21 @@ const ReposComponent = () => {
         navigate(`/repos/${repoId}`);
     };
 
-    useEffect(() => {
-        async function fetchRepo() {
-            const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu/repos");
-            const response = await fetchResponse.json();
-            setUserRepo(response);
-        }
-        fetchRepo();
-    }, []);
+    // useEffect(() => {
+    //     async function fetchRepo() {
+    //         const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu/repos");
+    //         const response = await fetchResponse.json();
+    //         setUserRepo(response);
+    //     }
+    //     fetchRepo();
+    // }, []);
 
+    useEffect(() => {
+        getRepos().then((response) => {
+            setUserRepo(response.data);
+        });
+    }, []);
+    
     return (
         <TableContainer component={Paper} elevation={3} sx={{ margin: '20px', overflow: 'hidden' }}>
             <Typography variant="h4" component="div" sx={{ padding: '20px' }}>Repositories</Typography>
