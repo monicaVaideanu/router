@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FormControl, InputLabel, Select, MenuItem, Typography, Box, Paper, Link } from '@mui/material';
+import { getRepos, getRepoIndividual } from '../apis/GetData';
 
 const RepositoryDetails = () => {
     const [repoData, setRepoData] = useState(null);
@@ -10,30 +11,54 @@ const RepositoryDetails = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function fetchRepositoryDetails() {
+        const fetchRepositoryDetails = async () => {
             try {
-                const response = await fetch(`https://api.github.com/repositories/${repoId}`);
-                if (!response.ok) throw new Error('Repository not found');
-                const data = await response.json();
-                setRepoData(data);
+                const response = await getRepoIndividual(repoId);
+                setRepoData(response.data); // axios include automat datele în proprietatea `data`
             } catch (error) {
                 setError(error.message);
             }
-        }
-
-        async function fetchAllRepositories() {
+        };
+        const fetchAllRepositories = async () => {
             try {
-                const response = await fetch("https://api.github.com/users/monicaVaideanu/repos");
-                const data = await response.json();
-                setAllRepos(data);
+                const response = await getRepos();
+                setAllRepos(response.data); // La fel, datele sunt disponibile direct
             } catch (error) {
                 setError(error.message);
             }
-        }
+        };
 
-        fetchRepositoryDetails();
+        if (repoId) {
+            fetchRepositoryDetails();
+        }
         fetchAllRepositories();
     }, [repoId]);
+
+    // useEffect(() => {
+    //     async function fetchRepositoryDetails() {
+    //         try {
+    //             const response = await fetch(`https://api.github.com/repositories/${repoId}`);
+    //             if (!response.ok) throw new Error('Repository not found');
+    //             const data = await response.json();
+    //             setRepoData(data);
+    //         } catch (error) {
+    //             setError(error.message);
+    //         }
+    //     }
+
+    //     async function fetchAllRepositories() {
+    //         try {
+    //             const response = await fetch("https://api.github.com/users/monicaVaideanu/repos");
+    //             const data = await response.json();
+    //             setAllRepos(data);
+    //         } catch (error) {
+    //             setError(error.message);
+    //         }
+    //     }
+
+    //     fetchRepositoryDetails();
+    //     fetchAllRepositories();
+    // }, [repoId]);
 
     const handleChange = (event) => {
         navigate(`/repos/${event.target.value}`);
