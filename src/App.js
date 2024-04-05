@@ -5,7 +5,7 @@ import ReposComponent from './components/ReposComponent';
 import RepositoryDetails from './components/RepositoryDetails';
 import AppDrawer from './components/AppDrawer'; 
 import {Routes, Route} from "react-router-dom";
-import PostComponenents from './components/PostComponents';
+import PostComponent from './components/PostComponents';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
               <Route path="/" element={<HomeComponent/>}/>
               <Route path="/repos" element={<ReposComponent/>} />
               <Route path="/repos/:repoId" element={<RepositoryDetails/>} />
-              <Route path="/posts" element={<PostComponent />}/>
+              <Route path="/posts" element={<PostComponent />} />
           </Routes>
       </div>
   );

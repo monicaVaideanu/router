@@ -14,7 +14,7 @@ const RepositoryDetails = () => {
         const fetchRepositoryDetails = async () => {
             try {
                 const response = await getRepoIndividual(repoId);
-                setRepoData(response.data); // axios include automat datele în proprietatea `data`
+                setRepoData(response.data);
             } catch (error) {
                 setError(error.message);
             }
@@ -22,7 +22,7 @@ const RepositoryDetails = () => {
         const fetchAllRepositories = async () => {
             try {
                 const response = await getRepos();
-                setAllRepos(response.data); // La fel, datele sunt disponibile direct
+                setAllRepos(response.data);
             } catch (error) {
                 setError(error.message);
             }

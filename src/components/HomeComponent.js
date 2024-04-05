@@ -24,6 +24,7 @@ const HomeComponent = () => {
             setUserAvatarUrl(response.data.avatar_url)
         });
     }, []);
+    
     useEffect(() => {
         getAvatar(avatarUrl).then((response) => {
             setUserAvatar(URL.createObjectURL(response.data))
