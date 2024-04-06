@@ -9,7 +9,7 @@ const RepositoryDetails = () => {
     const { repoId } = useParams();
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-
+/*todo refactor */
     useEffect(() => {
         const fetchRepositoryDetails = async () => {
             try {
@@ -34,31 +34,6 @@ const RepositoryDetails = () => {
         fetchAllRepositories();
     }, [repoId]);
 
-    // useEffect(() => {
-    //     async function fetchRepositoryDetails() {
-    //         try {
-    //             const response = await fetch(`https://api.github.com/repositories/${repoId}`);
-    //             if (!response.ok) throw new Error('Repository not found');
-    //             const data = await response.json();
-    //             setRepoData(data);
-    //         } catch (error) {
-    //             setError(error.message);
-    //         }
-    //     }
-
-    //     async function fetchAllRepositories() {
-    //         try {
-    //             const response = await fetch("https://api.github.com/users/monicaVaideanu/repos");
-    //             const data = await response.json();
-    //             setAllRepos(data);
-    //         } catch (error) {
-    //             setError(error.message);
-    //         }
-    //     }
-
-    //     fetchRepositoryDetails();
-    //     fetchAllRepositories();
-    // }, [repoId]);
 
     const handleChange = (event) => {
         navigate(`/repos/${event.target.value}`);

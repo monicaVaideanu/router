@@ -6,7 +6,6 @@ import {getAllData, getAvatar} from '../apis/GetData';
 const HomeComponent = () => {
     const [userData, setUserData] = useState(null);
     const [avatar, setUserAvatar] = useState(null);
-    const [avatarUrl, setUserAvatarUrl] = useState(null);
     const navigate = useNavigate(); 
 
     // useEffect(() => {
@@ -21,16 +20,15 @@ const HomeComponent = () => {
     useEffect(() => {
         getAllData().then((response) => {
             setUserData(response.data);
-            setUserAvatarUrl(response.data.avatar_url)
+            getAvatar(response.data.avatar_url).then((response) => {
+                setUserAvatar(URL.createObjectURL(response.data));
+                console.log(response.data)
+            }).catch((e) => {
+                console.log(e.request)
+             })
         });
     }, []);
     
-    useEffect(() => {
-        getAvatar(avatarUrl).then((response) => {
-            setUserAvatar(URL.createObjectURL(response.data))
-        });
-    }, [avatarUrl]);
-
     // useEffect(() => {
     //     if (userData) {
     //         async function fetchUserAvatar() {
