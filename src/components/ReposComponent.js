@@ -11,15 +11,6 @@ const ReposComponent = () => {
         navigate(`/repos/${repoId}`);
     };
 
-    // useEffect(() => {
-    //     async function fetchRepo() {
-    //         const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu/repos");
-    //         const response = await fetchResponse.json();
-    //         setUserRepo(response);
-    //     }
-    //     fetchRepo();
-    // }, []);
-
     useEffect(() => {
         getRepos().then((response) => {
             setUserRepo(response.data);

@@ -9,30 +9,36 @@ const RepositoryDetails = () => {
     const { repoId } = useParams();
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-/*todo refactor */
+    const[fetchRepositoryDetails, setRepoDetails] = useState(null);
+    
     useEffect(() => {
-        const fetchRepositoryDetails = async () => {
-            try {
-                const response = await getRepoIndividual(repoId);
-                setRepoData(response.data);
-            } catch (error) {
-                setError(error.message);
-            }
+        const fetchRepositoryDetails = () => {
+            return getRepoIndividual(repoId)
+                .then(response => {
+                    setRepoData(response.data);
+                })
+                .catch(error => {
+                    setError(error.message);
+                });
         };
-        const fetchAllRepositories = async () => {
-            try {
-                const response = await getRepos();
-                setAllRepos(response.data);
-            } catch (error) {
-                setError(error.message);
-            }
+    
+        const fetchAllRepositories = () => {
+            return getRepos()
+                .then(response => {
+                    setAllRepos(response.data);
+                })
+                .catch(error => {
+                    setError(error.message);
+                });
         };
-
+    
         if (repoId) {
             fetchRepositoryDetails();
         }
         fetchAllRepositories();
     }, [repoId]);
+    
+
 
 
     const handleChange = (event) => {

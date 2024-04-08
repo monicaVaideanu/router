@@ -8,15 +8,6 @@ const HomeComponent = () => {
     const [avatar, setUserAvatar] = useState(null);
     const navigate = useNavigate(); 
 
-    // useEffect(() => {
-    //     async function fetchUserData() {
-    //         const fetchResponse = await fetch("https://api.github.com/users/monicaVaideanu");
-    //         const jsonResponse = await fetchResponse.json();
-    //         setUserData(jsonResponse);
-    //     }
-    //     fetchUserData();
-    // }, []);
-
     useEffect(() => {
         getAllData().then((response) => {
             setUserData(response.data);
@@ -28,17 +19,7 @@ const HomeComponent = () => {
              })
         });
     }, []);
-    
-    // useEffect(() => {
-    //     if (userData) {
-    //         async function fetchUserAvatar() {
-    //             const fetchResponse = await fetch(userData.avatar_url);
-    //             const img = await fetchResponse.blob();
-    //             setUserAvatar(URL.createObjectURL(img));
-    //         }
-    //         fetchUserAvatar();
-    //     }
-    // }, [userData]);
+
 
     const goToRepos = () => {
         navigate('/repos');
